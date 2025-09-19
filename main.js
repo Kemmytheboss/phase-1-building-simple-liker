@@ -5,16 +5,25 @@ const FULL_HEART = '♥'
 // Your JavaScript code goes here!
 const hearts = document.querySelectorAll('.like-glyph');
 const errorModal = document.getElementById('moddal');
+const errorMessage = document.getElementById('modal-message');
 
 hearts.forEach(heart => {
   heart.addEventListener('click', () => {
     mimicServerCall()
     .then(() => {
-      // success handling will go here later
-      console.log("Server call succeeded");
+      // success: toggle heart
+      if(heart.textContent === EMPTY_HEART){
+        heart.textContent = FULL_HEART;
+        heart.classList.add('activated-heart');
+      }
+      else {
+        heart.textContent = EMPTY_HEART;
+        heart.classList.remove('activated-heart');
+      }
     })
-    .catch(()=> {
-      // show the modal
+    .catch((error)=> {
+      // failure: show the modal with error message
+      errorMessage.textContent = error;
       errorModal.classList.remove('hidden');
 
       //hide it again after 3seconds
